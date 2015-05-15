@@ -9,14 +9,16 @@ Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'kchmck/vim-coffee-script'
-" Plug 'Shougo/neocomplete'
+Plug 'davidhalter/jedi-vim'
+Plug 'kshenoy/vim-signature'
+Plug 'pangloss/vim-javascript'
+Plug 'mhinz/vim-signify'
+Plug 'majutsushi/tagbar'
+" Plug 'Shougo/neocomplete.vim'
 
+" http://superuser.com/questions/343443/are-there-any-autocompletion-plugins-for-vim
+" Надо посмотреть, что чувак пишет про автокомплит
 call plug#end()
-
-
-syntax on
-filetype on 
-filetype plugin indent on
 
 set tabstop=4
 set shiftwidth=4
@@ -24,11 +26,10 @@ set softtabstop=4
 set smarttab
 set expandtab
 set smartindent
-set paste
 let python_highlight_all=1
 set t_Co=256
 colorscheme zenburn
-set number
+set nonumber
 set guifont=consolas:h12
 set foldcolumn=1
 set matchpairs+=<:> " показывать совпадающие скобки для HTML-тегов
@@ -46,6 +47,9 @@ set guicursor=
 set colorcolumn=80
 set hidden
 
+syntax on
+filetype on 
+filetype plugin indent on
 
 " Search
 " While typing a search command, show pattern matches as it is typed
@@ -78,6 +82,9 @@ imap <silent> <F2> : NERDTreeToggle <CR>
 let NERDTreeIgnore = ['\.pyc$']
 let g:nerdtree_tabs_open_on_console_startup = 1
 
+" Tagbar
+nmap <F3> :TagbarToggle<CR>
+
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -104,31 +111,34 @@ function! CurDir()
 return expand('%:p:~')
 endfunction
 
-set laststatus=2
-set statusline=\ 
-set statusline+=%n:\ " buffer number
-set statusline+=%t " filename with full path
-set statusline+=%m " modified flag
-set statusline+=\ \ 
-set statusline+=%{&paste?'[paste]\ ':''}
-set statusline+=%{&fileencoding}
-set statusline+=\ \ %Y " type of file
-set statusline+=\ %3.3(%c%) " column number
-set statusline+=\ \ %3.9(%l/%L%) " line / total lines
-set statusline+=\ \ %{FileSize()}
-set statusline+=%< " where truncate if line too long
-set statusline+=\ \ CurDir:%{CurDir()}
+" set laststatus=2
+" set statusline=\ 
+" set statusline+=%n:\ " buffer number
+" set statusline+=%t " filename with full path
+" set statusline+=%m " modified flag
+" set statusline+=\ \ 
+" set statusline+=%{&paste?'[paste]\ ':''}
+" set statusline+=%{&fileencoding}
+" set statusline+=\ \ %Y " type of file
+" set statusline+=\ %3.3(%c%) " column number
+" set statusline+=\ \ %3.9(%l/%L%) " line / total lines
+" set statusline+=\ \ %{FileSize()}
+" set statusline+=%< " where truncate if line too long
+" set statusline+=\ \ CurDir:%{CurDir()}
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_section_b = '%{getcwd()}'
+let g:airline_section_b = '%t'
 let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 let g:airline_detect_whitespace=0
 let g:airline#extensions#tabline#enabled = 1
 
-autocmd FileType javascript set tabstop=2
-autocmd FileType javascript set shiftwidth=2
-autocmd FileType javascript set expandtab
-autocmd FileType javascript set smartindent 
+
+" autocmd FileType javascript set tabstop=2
+" autocmd FileType javascript set shiftwidth=2
+" autocmd FileType javascript set expandtab
+" autocmd FileType javascript set smartindent 
+" autocmd FileType javascript set softtabstop=2 
+" autocmd FileType javascript set smarttab
 autocmd FileType htmldjango set tabstop=2
 autocmd FileType html set tabstop=2
 autocmd FileType htmldjango set shiftwidth=2
@@ -142,6 +152,7 @@ autocmd FileType coffee set tabstop=2
 autocmd FileType coffee set shiftwidth=2
 autocmd FileType coffee set expandtab
 autocmd FileType coffee set smartindent 
+
 
 set nobackup
 set noswapfile
