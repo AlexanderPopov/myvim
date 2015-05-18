@@ -129,8 +129,8 @@ let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_section_b = '%t'
 let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
-let g:airline_detect_whitespace=0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
 
 
 " autocmd FileType javascript set tabstop=2
