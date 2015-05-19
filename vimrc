@@ -133,12 +133,18 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 
 
-" autocmd FileType javascript set tabstop=2
-" autocmd FileType javascript set shiftwidth=2
-" autocmd FileType javascript set expandtab
-" autocmd FileType javascript set smartindent 
-" autocmd FileType javascript set softtabstop=2 
-" autocmd FileType javascript set smarttab
+autocmd FileType javascript set tabstop=2
+autocmd FileType javascript set shiftwidth=2
+autocmd FileType javascript set expandtab
+autocmd FileType javascript set smartindent 
+autocmd FileType javascript set softtabstop=2 
+autocmd FileType javascript set smarttab
+autocmd FileType python set tabstop=4
+autocmd FileType python set shiftwidth=4
+autocmd FileType python set expandtab
+autocmd FileType python set smartindent 
+autocmd FileType python set softtabstop=2 
+autocmd FileType python set smarttab
 autocmd FileType htmldjango set tabstop=2
 autocmd FileType html set tabstop=2
 autocmd FileType htmldjango set shiftwidth=2
