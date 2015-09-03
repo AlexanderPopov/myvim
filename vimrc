@@ -17,6 +17,7 @@ Plug 'majutsushi/tagbar'
 
 " http://superuser.com/questions/343443/are-there-any-autocompletion-plugins-for-vim
 " Надо посмотреть, что чувак пишет про автокомплит
+Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
 set tabstop=4
