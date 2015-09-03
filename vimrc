@@ -8,13 +8,12 @@ Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
 Plug 'kchmck/vim-coffee-script'
 Plug 'davidhalter/jedi-vim'
-Plug 'kshenoy/vim-signature'
 Plug 'pangloss/vim-javascript'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
-" Plug 'Shougo/neocomplete.vim'
 
 " http://superuser.com/questions/343443/are-there-any-autocompletion-plugins-for-vim
 " Надо посмотреть, что чувак пишет про автокомплит
@@ -32,7 +31,7 @@ colorscheme zenburn
 set nonumber
 set guifont=consolas:h12
 set foldcolumn=1
-set matchpairs+=<:> " показывать совпадающие скобки для HTML-тегов
+" set matchpairs+=<:> " показывать совпадающие скобки для HTML-тегов
 set showmatch " показывать первую парную скобку после ввода второй
 set autoread " перечитывать измененные файлы автоматически
 set laststatus=2
@@ -89,9 +88,6 @@ nmap <F3> :TagbarToggle<CR>
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
-" Neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-
 " airline
 " Приводим в порядок status line
 
@@ -111,26 +107,15 @@ function! CurDir()
 return expand('%:p:~')
 endfunction
 
-" set laststatus=2
-" set statusline=\ 
-" set statusline+=%n:\ " buffer number
-" set statusline+=%t " filename with full path
-" set statusline+=%m " modified flag
-" set statusline+=\ \ 
-" set statusline+=%{&paste?'[paste]\ ':''}
-" set statusline+=%{&fileencoding}
-" set statusline+=\ \ %Y " type of file
-" set statusline+=\ %3.3(%c%) " column number
-" set statusline+=\ \ %3.9(%l/%L%) " line / total lines
-" set statusline+=\ \ %{FileSize()}
-" set statusline+=%< " where truncate if line too long
-" set statusline+=\ \ CurDir:%{CurDir()}
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_section_b = '%t'
-let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#empty_message = 'no git repository'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
+
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_section_c = '%t'
+let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 
 
 autocmd FileType javascript set tabstop=2
