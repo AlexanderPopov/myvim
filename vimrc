@@ -14,6 +14,7 @@ Plug 'davidhalter/jedi-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mhinz/vim-signify'
 Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
 
 " http://superuser.com/questions/343443/are-there-any-autocompletion-plugins-for-vim
 " Надо посмотреть, что чувак пишет про автокомплит
