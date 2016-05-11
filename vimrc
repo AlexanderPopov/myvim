@@ -1,39 +1,36 @@
+" ========================== Plugins =========================================
 call plug#begin('~/.vim/plugged')
-
-Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'scrooloose/syntastic' " Пока не работает. Надо с ним разобраться.
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
-Plug 'kchmck/vim-coffee-script'
-Plug 'davidhalter/jedi-vim'
-Plug 'pangloss/vim-javascript'
 Plug 'mhinz/vim-signify'
-Plug 'majutsushi/tagbar'
-Plug 'mileszs/ack.vim'
-
-" http://superuser.com/questions/343443/are-there-any-autocompletion-plugins-for-vim
-" Надо посмотреть, что чувак пишет про автокомплит
-Plug 'Valloric/YouCompleteMe'
+Plug 'junegunn/vim-easy-align'
+Plug 'octol/vim-cpp-enhanced-highlight' " C++ syntax
 call plug#end()
 
+" ======================== Base settings =====================================
+" leader
+let mapleader=","
+let maplocalleader=";"
+" indent
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set smarttab
 set expandtab
 set smartindent
+" styles
 let python_highlight_all=1
-set t_Co=256
+set t_Co=256 " 256 цветов в терминале
 colorscheme zenburn
-set nonumber
 set guifont=consolas:h12
+
 set foldcolumn=1
-" set matchpairs+=<:> " показывать совпадающие скобки для HTML-тегов
 set showmatch " показывать первую парную скобку после ввода второй
 set autoread " перечитывать измененные файлы автоматически
 set laststatus=2
@@ -43,14 +40,45 @@ set wildmode=list:longest,full
 set wildmenu
 set title
 set showcmd
-set cursorline
+set cursorline " подсветка текущей строки
 set guicursor=
 set colorcolumn=80
 set hidden
 
-syntax on
-filetype on 
+
+" ================================= mappings =================================
+" text navigation
+noremap <silent> j gj
+noremap <silent> k gk
+noremap J }
+noremap K {
+noremap H ^
+noremap L $
+" " file omni-complete
+inoremap <C-f> <C-x><C-f>
+" " Отступы в визуальном моде. Оставляем выделение после отступа
+vmap < <gv
+vmap > >gv
+
+syntax on   " Подсветка синтаксиса
+filetype on
 filetype plugin indent on
+
+" Номера строк
+if v:version >= 704
+    set relativenumber number " for hybrid relative number mode
+    inoremap <C-c> <ESC>
+    autocmd InsertEnter * :set nornu
+    autocmd InsertLeave * :set rnu
+endif
+
+" Запоминать позицию курсора между сессиями
+autocmd BufReadPost *
+    \ if line("'\'") > 0 && line ("'\'") <= line("$") |
+    \   exe "normal! g'\"" |
+    \ endif
+" Центрировать буфер на позиции курсора
+autocmd BufRead * normal zz
 
 " Search
 " While typing a search command, show pattern matches as it is typed
@@ -66,10 +94,7 @@ set smartcase
 " All matches in a line are substituted instead of one
 set gdefault
 
-
-" Plugins
-
-
+" ======================== Plugins's settings ================================
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -79,36 +104,16 @@ nmap ga <Plug>(EasyAlign)
 
 " NERDTree 
 nmap <silent> <F2> : NERDTreeToggle<CR>
-imap <silent> <F2> : NERDTreeToggle <CR>
 let NERDTreeIgnore = ['\.pyc$']
-let g:nerdtree_tabs_open_on_console_startup = 1
 
 " Tagbar
-nmap <F3> :TagbarToggle<CR>
+" nmap <F3> :TagbarToggle<CR>
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
 " airline
-" Приводим в порядок status line
-
-function! FileSize()
-let bytes = getfsize(expand("%:p"))
-if bytes <= 0
-return ""
-endif
-if bytes < 1024
-return bytes . "B"
-else
-return (bytes / 1024) . "K"
-endif
-endfunction
-
-function! CurDir()
-return expand('%:p:~')
-endfunction
-
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = 'no git repository'
 let g:airline#extensions#tabline#enabled = 1
@@ -120,6 +125,7 @@ let g:airline_section_c = '%t'
 let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 
 
+" ========================= filetype settings ================================
 autocmd FileType javascript set tabstop=2
 autocmd FileType javascript set shiftwidth=2
 autocmd FileType javascript set expandtab
@@ -150,10 +156,6 @@ autocmd FileType coffee set smartindent
 set nobackup
 set noswapfile
 set encoding=utf-8
-
-" FIXME, TODO comments
-map <F6> :vimgrep /FIXME\\|TODO/j *.py<CR>:cw<CR>
-
 
 " Shell ------------------------------------------------------------------- {{{
 set shell=/bin/bash
