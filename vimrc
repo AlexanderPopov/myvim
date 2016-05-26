@@ -11,6 +11,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/vim-easy-align'
 Plug 'octol/vim-cpp-enhanced-highlight' " C++ syntax
+Plug 'valloric/youcompleteme'
 call plug#end()
 
 " ======================== Base settings =====================================
@@ -45,6 +46,10 @@ set guicursor=
 set colorcolumn=80
 set hidden
 
+syntax on   " Подсветка синтаксиса
+filetype on
+filetype plugin indent on
+
 
 " ================================= mappings =================================
 " text navigation
@@ -54,15 +59,17 @@ noremap J }
 noremap K {
 noremap H ^
 noremap L $
-" " file omni-complete
+" file omni-complete
 inoremap <C-f> <C-x><C-f>
-" " Отступы в визуальном моде. Оставляем выделение после отступа
+" Отступы в визуальном моде. Оставляем выделение после отступа
 vmap < <gv
 vmap > >gv
 
-syntax on   " Подсветка синтаксиса
-filetype on
-filetype plugin indent on
+" Центрирование по курсору в переходах
+noremap G Gzz
+noremap n nzz
+noremap N Nzz
+noremap '' ''zz
 
 " Номера строк
 if v:version >= 704
@@ -104,6 +111,7 @@ nmap ga <Plug>(EasyAlign)
 
 " NERDTree 
 nmap <silent> <F2> : NERDTreeToggle<CR>
+nmap <silent> <leader>n : NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$']
 
 " Tagbar
@@ -115,12 +123,18 @@ let g:ctrlp_cmd = 'CtrlP'
 
 " airline
 let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#branch#empty_message = 'no git repository'
+let g:airline#extensions#branch#empty_message = 'no git repo'
+
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.branch = '⎇'
 
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+
 let g:airline_section_c = '%t'
 let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 
@@ -132,25 +146,30 @@ autocmd FileType javascript set expandtab
 autocmd FileType javascript set smartindent 
 autocmd FileType javascript set softtabstop=2 
 autocmd FileType javascript set smarttab
+autocmd FileType cpp set tabstop=3
+autocmd FileType cpp set shiftwidth=3
+autocmd FileType cpp set expandtab
+autocmd FileType cpp set smartindent 
+autocmd FileType cpp set softtabstop=3 
+autocmd FileType cpp set smarttab
+autocmd FileType sql set tabstop=3
+autocmd FileType sql set shiftwidth=3
+autocmd FileType sql set noexpandtab
+autocmd FileType sql set smartindent 
+autocmd FileType sql set softtabstop=3 
+autocmd FileType sql set smarttab
 autocmd FileType python set tabstop=4
 autocmd FileType python set shiftwidth=4
 autocmd FileType python set expandtab
 autocmd FileType python set smartindent 
 autocmd FileType python set softtabstop=2 
 autocmd FileType python set smarttab
-autocmd FileType htmldjango set tabstop=2
 autocmd FileType html set tabstop=2
-autocmd FileType htmldjango set shiftwidth=2
 autocmd FileType html set shiftwidth=2
-autocmd FileType htmldjango set expandtab
 autocmd FileType html set expandtab
 autocmd FileType css set tabstop=2
 autocmd FileType css set shiftwidth=2
 autocmd FileType css set expandtab
-autocmd FileType coffee set tabstop=2
-autocmd FileType coffee set shiftwidth=2
-autocmd FileType coffee set expandtab
-autocmd FileType coffee set smartindent 
 
 
 set nobackup
