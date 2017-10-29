@@ -10,8 +10,19 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/vim-easy-align'
+Plug 'pangloss/vim-javascript' " JS syntax
 Plug 'octol/vim-cpp-enhanced-highlight' " C++ syntax
-Plug 'valloric/youcompleteme'
+
+Plug 'ervandew/supertab'
+" Plug 'valloric/youcompleteme'
+
+" snippets libs
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+
+Plug 'KeitaNakamura/neodark.vim'
+" Plug 'nightsense/vim-crunchbang'
+" Plug 'exitface/synthwave.vim'
 call plug#end()
 
 " ======================== Base settings =====================================
@@ -28,7 +39,10 @@ set smartindent
 " styles
 let python_highlight_all=1
 set t_Co=256 " 256 цветов в терминале
-colorscheme zenburn
+" colorscheme zenburn
+
+colorscheme neodark
+
 set guifont=consolas:h12
 
 set foldcolumn=1
@@ -53,8 +67,8 @@ filetype plugin indent on
 
 " ================================= mappings =================================
 " text navigation
-noremap <silent> j gj
-noremap <silent> k gk
+" noremap <silent> j gj
+" noremap <silent> k gk
 noremap J }
 noremap K {
 noremap H ^
@@ -138,6 +152,16 @@ let g:airline_right_sep=''
 let g:airline_section_c = '%t'
 let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1 " Подсветка синтаксиса jsdoc
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END                         " Авто-фолдинг для js-файлов
+set conceallevel=1
+let g:javascript_conceal_function             = "ƒ" " Замена символов function
+let g:javascript_conceal_arrow_function       = "⇒" " arrow-function
+
 
 " ========================= filetype settings ================================
 autocmd FileType javascript set tabstop=2
@@ -175,22 +199,3 @@ autocmd FileType css set expandtab
 set nobackup
 set noswapfile
 set encoding=utf-8
-
-" Shell ------------------------------------------------------------------- {{{
-set shell=/bin/bash
-function! s:ExecuteInShell(command) " {{{
-    let command = join(map(split(a:command), 'expand(v:val)'))
-    let winnr = bufwinnr('^' . command . '$')
-    silent! execute  winnr < 0 ? 'botright vnew ' . fnameescape(command) : winnr . 'wincmd w'
-    setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap nonumber
-    echo 'Execute ' . command . '...'
-    silent! execute 'silent %!'. command
-    silent! redraw
-    silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
-    silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>:AnsiEsc<CR>'
-    silent! execute 'nnoremap <silent> <buffer> q :q<CR>'
-    silent! execute 'AnsiEsc'
-    echo 'Shell command ' . command . ' executed.'
-endfunction " }}}
-command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
-nnoremap <leader>! :Shell 
