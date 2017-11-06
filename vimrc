@@ -7,7 +7,11 @@ Plug 'https://github.com/kien/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+
+" git
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/vim-easy-align'
 Plug 'pangloss/vim-javascript' " JS syntax
