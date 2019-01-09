@@ -1,5 +1,5 @@
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
+" source $VIMRUNTIME/vimrc_example.vim
+" source $VIMRUNTIME/mswin.vim
 behave mswin
 
 " ========================== Plugins =========================================
@@ -60,7 +60,7 @@ colorscheme nord
 
 set guifont=SauceCodePro_NF:h11:cRUSSIAN
 
-set encoding=utf-8
+set encoding=UTF-8
 set foldcolumn=1
 set showmatch " показывать первую парную скобку после ввода второй
 set autoread " перечитывать измененные файлы автоматически
@@ -209,7 +209,7 @@ let g:indent_guides_guide_size = 1
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-tab>"
 " let g:UltiSnipsListSnippets="<c-tab>"
-let g:UltiSnipsSnippetsDir="C:\\Program Files (x86)\\Vim\\UltiSnips\\"
+" let g:UltiSnipsSnippetsDir="C:\\Program Files (x86)\\Vim\\UltiSnips\\"
 let g:UltiSnipsUsePythonVersion = 2
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
@@ -291,11 +291,11 @@ endfunction
 lan mes ru_RU.UTF-8
 
 " Отображение кириллицы в меню
-source $VIMRUNTIME/delmenu.vim
-set langmenu=ru_RU.UTF-8
-source $VIMRUNTIME/menu.vim
+" source $VIMRUNTIME/delmenu.vim
+" set langmenu=ru_RU.UTF-8
+" source $VIMRUNTIME/menu.vim
 
-set guioptions-=m
-set guioptions-=T
-set guioptions-=L
-set guioptions-=r
+" set guioptions-=m
+" set guioptions-=T
+" set guioptions-=L
+" set guioptions-=r
