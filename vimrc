@@ -4,8 +4,9 @@ behave mswin
 
 " ========================== Plugins =========================================
 call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree' " , { 'on':  'NERDTreeToggle' }
+Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'scrooloose/syntastic' " Пока не работает. Надо с ним разобраться.
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
@@ -21,9 +22,9 @@ Plug 'junegunn/gv.vim'
 
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/vim-easy-align'
-
-Plug 'pangloss/vim-javascript' " JS syntax
-Plug 'octol/vim-cpp-enhanced-highlight' " C++ syntax
+Plug 'pangloss/vim-javascript'              " JS syntax
+Plug 'mxw/vim-jsx'                          " jsx syntax
+Plug 'octol/vim-cpp-enhanced-highlight'     " C++ syntax
 
 Plug 'ervandew/supertab'
 " Plug 'valloric/youcompleteme'
@@ -54,13 +55,14 @@ set smartindent
 " styles
 let python_highlight_all=1
 set t_Co=256 " 256 цветов в терминале
-" colorscheme zenburn
 
 colorscheme nord
 
 set guifont=SauceCodePro_NF:h11:cRUSSIAN
 
 set encoding=UTF-8
+set backspace=indent,eol,start
+
 set foldcolumn=1
 set showmatch " показывать первую парную скобку после ввода второй
 set autoread " перечитывать измененные файлы автоматически
@@ -87,8 +89,8 @@ filetype plugin indent on
 " text navigation
 " noremap <silent> j gj
 " noremap <silent> k gk
-noremap J }
-noremap K {
+" noremap J }
+" noremap K {
 noremap H ^
 noremap L $
 " file omni-complete
@@ -142,7 +144,7 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " NERDTree 
-nmap <silent> <F2> : NERDTreeToggle<CR>
+nmap <silent> <F2> : NERDTreeTabsToggle<CR>
 nmap <silent> <leader>n : NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeWinSize = 60
@@ -173,6 +175,10 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git)$|node_modules',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 " airline
 let g:airline#extensions#branch#enabled = 1
@@ -193,10 +199,6 @@ let g:airline_section_z = ' %3.9(%l/%L%) :%3.3(%c%)  '
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1 " Подсветка синтаксиса jsdoc
-" augroup javascript_folding
-"     au!
-"     au FileType javascript setlocal foldmethod=syntax
-" augroup END                         " Авто-фолдинг для js-файлов
 set conceallevel=1
 " let g:javascript_conceal_function             = "ƒ" " Замена символов function
 " let g:javascript_conceal_arrow_function       = "⇒" " arrow-function
@@ -208,8 +210,6 @@ let g:indent_guides_guide_size = 1
 " ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-tab>"
-" let g:UltiSnipsListSnippets="<c-tab>"
-" let g:UltiSnipsSnippetsDir="C:\\Program Files (x86)\\Vim\\UltiSnips\\"
 let g:UltiSnipsUsePythonVersion = 2
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
@@ -249,6 +249,9 @@ autocmd FileType html set expandtab
 autocmd FileType css set tabstop=2
 autocmd FileType css set shiftwidth=2
 autocmd FileType css set expandtab
+augroup filetypedetect
+    au BufRead,BufNewFile *.handlebars setfiletype html
+augroup END
 
 set nobackup
 set noswapfile
