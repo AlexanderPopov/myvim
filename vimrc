@@ -9,12 +9,11 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'jistr/vim-nerdtree-tabs'
 " Plug 'scrooloose/syntastic' " Пока не работает. Надо с ним разобраться.
 Plug 'https://github.com/tpope/vim-commentary'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
-Plug 'ryanoasis/vim-devicons' " load after airline and ctrlp
+Plug 'ryanoasis/vim-devicons' " load after airline
 
 " git
 Plug 'tpope/vim-fugitive'
@@ -26,17 +25,24 @@ Plug 'pangloss/vim-javascript'              " JS syntax
 Plug 'mxw/vim-jsx'                          " jsx syntax
 Plug 'octol/vim-cpp-enhanced-highlight'     " C++ syntax
 
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
+Plug 'mileszs/ack.vim'
+
 Plug 'ervandew/supertab'
 " Plug 'valloric/youcompleteme'
 
 " snippets libs
 " Plug 'SirVer/ultisnips'
 
+Plug 'junegunn/goyo.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 
 " colorshemes
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'derekwyatt/vim-fswitch'
 " Plug 'nightsense/vim-crunchbang'
 " Plug 'exitface/synthwave.vim'
 call plug#end()
@@ -104,6 +110,10 @@ noremap G Gzz
 noremap n nzz
 noremap N Nzz
 noremap '' ''zz
+nmap <leader>fa :Ack <cword>
+nmap <leader>fw :Ack <cword> **/*.{h,cpp,orx} <CR>
+" do not jump to the first result
+cnoreabbrev Ack Ack!
 
 " Номера строк
 if v:version >= 704
@@ -135,6 +145,23 @@ set smartcase
 " All matches in a line are substituted instead of one
 set gdefault
 
+
+" Remove trailing spaces on save
+function! TrimWhiteSpace()
+    %s/\s*$//
+    ''
+endfunction
+autocmd BufWritePre * call TrimWhiteSpace()
+
+
+" Open quickfix window after all :make, :grep :lvimgrep and so on
+augroup myvimrc
+   autocmd!
+   autocmd QuickFixCmdPost [^l]* cwindow
+   autocmd QuickFixCmdPost l*    lwindow
+augroup END
+
+set path=.,/usr/include,,**,/opt/SBISPlatformSDK_19300/include/,
 " ======================== Plugins's settings ================================
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -143,9 +170,19 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-" NERDTree 
+" fzf
+nmap <C-p> :FZF<CR>
+nmap <leader>. :FZF<CR>
+nmap <leader>b :Buffers<CR>
+
+" ack and ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
+
+" NERDTree
 nmap <silent> <F2> : NERDTreeTabsToggle<CR>
 nmap <silent> <leader>n : NERDTreeToggle<CR>
+nmap <leader>nr : NERDTreeFind<CR>
 let NERDTreeIgnore = ['\.pyc$']
 let NERDTreeWinSize = 60
 
@@ -165,20 +202,12 @@ let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:airline_powerline_fonts = 1
 let g:webdevicons_enable_airline_tabline = 1
 let g:webdevicons_enable_airline_statusline = 1
-let g:webdevicons_enable_ctrlp = 1
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
 " Tagbar
 " nmap <F3> :TagbarToggle<CR>
 
-" CtrlP
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git)$|node_modules',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
 
 " airline
 let g:airline#extensions#branch#enabled = 1
@@ -227,26 +256,26 @@ let g:UltiSnipsEditSplit="vertical"
 autocmd FileType javascript set tabstop=2
 autocmd FileType javascript set shiftwidth=2
 autocmd FileType javascript set expandtab
-autocmd FileType javascript set smartindent 
+autocmd FileType javascript set smartindent
 autocmd FileType javascript set softtabstop=2
 autocmd FileType javascript set smarttab
 autocmd FileType cpp set tabstop=3
 autocmd FileType cpp set shiftwidth=3
 autocmd FileType cpp set expandtab
-autocmd FileType cpp set smartindent 
-autocmd FileType cpp set softtabstop=3 
+autocmd FileType cpp set smartindent
+autocmd FileType cpp set softtabstop=3
 autocmd FileType cpp set smarttab
 autocmd FileType sql set tabstop=3
 autocmd FileType sql set shiftwidth=3
 autocmd FileType sql set noexpandtab
-autocmd FileType sql set smartindent 
-autocmd FileType sql set softtabstop=3 
+autocmd FileType sql set smartindent
+autocmd FileType sql set softtabstop=3
 autocmd FileType sql set smarttab
 autocmd FileType python set tabstop=4
 autocmd FileType python set shiftwidth=4
 autocmd FileType python set expandtab
-autocmd FileType python set smartindent 
-autocmd FileType python set softtabstop=2 
+autocmd FileType python set smartindent
+autocmd FileType python set softtabstop=2
 autocmd FileType python set smarttab
 autocmd FileType html set tabstop=2
 autocmd FileType html set shiftwidth=2
